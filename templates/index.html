@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+{# Extra URL arguments that keep the current filter when it is not "All". #}
+{% set keep = {} if selected == 'all' else {'filter': selected} %}
+
+<section class="card" aria-labelledby="add-heading">
+    <h2 id="add-heading">Add a task</h2>
+    <form method="post" action="{{ url_for('add_task') }}" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="field">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ form.get('title', '') }}"
+                   {% if errors.get('title') %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
+            {% if errors.get('title') %}
+                <p class="error" id="title-error">{{ errors['title'] }}</p>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            <label for="description">Description <span class="optional">(optional)</span></label>
+            <textarea id="description" name="description" rows="3"
+                      {% if errors.get('description') %}aria-invalid="true" aria-describedby="description-error"{% endif %}>{{ form.get('description', '') }}</textarea>
+            {% if errors.get('description') %}
+                <p class="error" id="description-error">{{ errors['description'] }}</p>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+</section>
+
+<section aria-labelledby="tasks-heading">
+    <h2 id="tasks-heading">Your tasks</h2>
+
+    <nav class="filters" aria-label="Filter tasks">
+        {% for value, label in [('all', 'All'), ('pending', 'Pending'), ('completed', 'Completed')] %}
+            <a class="filter {% if selected == value %}filter-active{% endif %}"
+               href="{{ url_for('index', filter=value) }}"
+               {% if selected == value %}aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+    </nav>
+
+    {% if tasks %}
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task {% if task['completed'] %}task-completed{% endif %}">
+                    <div class="task-body">
+                        <h3 class="task-title">{{ task['title'] }}</h3>
+                        {% if task['description'] %}
+                            <p class="task-description">{{ task['description'] }}</p>
+                        {% endif %}
+                        <p class="task-status">
+                            Status: {{ 'Completed' if task['completed'] else 'Pending' }}
+                        </p>
+                    </div>
+
+                    <div class="task-actions">
+                        <form method="post" action="{{ url_for('set_task_status', task_id=task['id']) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="filter" value="{{ selected }}">
+                            {% if task['completed'] %}
+                                <input type="hidden" name="completed" value="0">
+                                <button type="submit" class="btn">Mark Pending</button>
+                            {% else %}
+                                <input type="hidden" name="completed" value="1">
+                                <button type="submit" class="btn btn-success">Mark Complete</button>
+                            {% endif %}
+                        </form>
+
+                        <a class="btn" href="{{ url_for('edit_task', task_id=task['id'], **keep) }}">Edit</a>
+
+                        <form method="post" action="{{ url_for('delete_task', task_id=task['id']) }}"
+                              onsubmit="return confirm('Delete this task? This cannot be undone.');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="filter" value="{{ selected }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if selected == 'pending' %}
+            <p class="empty">No pending tasks. Everything is done, or nothing has been added yet.</p>
+        {% elif selected == 'completed' %}
+            <p class="empty">No completed tasks yet. Finish a task and it will show up here.</p>
+        {% else %}
+            <p class="empty">You have no tasks yet. Add your first task above.</p>
+        {% endif %}
+    {% endif %}
+</section>
+{% endblock %}

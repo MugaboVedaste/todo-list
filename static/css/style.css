@@ -1,0 +1,312 @@
+/* Simple To-Do List styles. Mobile-first: the base styles suit narrow screens,
+   and the media query at the bottom adds extras for wider screens. */
+
+:root {
+    --color-bg: #f4f6f8;
+    --color-surface: #ffffff;
+    --color-text: #1f2933;
+    --color-muted: #52606d;
+    --color-border: #cbd2d9;
+    --color-primary: #1d4ed8;
+    --color-primary-dark: #1e3a8a;
+    --color-success: #15803d;
+    --color-success-bg: #dcfce7;
+    --color-danger: #b91c1c;
+    --color-danger-bg: #fee2e2;
+    --radius: 8px;
+    --space: 1rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* --- Layout --- */
+
+.site-header {
+    background: var(--color-primary);
+    padding: var(--space);
+}
+
+.site-header h1 {
+    margin: 0 auto;
+    max-width: 42rem;
+    font-size: 1.5rem;
+}
+
+.site-header a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.container {
+    margin: 0 auto;
+    padding: var(--space);
+    max-width: 42rem;
+}
+
+h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space);
+    margin-bottom: 1.5rem;
+}
+
+/* --- Messages and errors --- */
+
+.message {
+    margin: 0 0 0.5rem;
+    padding: 0.75rem var(--space);
+    border-radius: var(--radius);
+}
+
+.message-success {
+    background: var(--color-success-bg);
+    color: #14532d;
+}
+
+.error {
+    margin: 0.25rem 0 0;
+    color: var(--color-danger);
+    font-weight: 600;
+}
+
+/* --- Forms --- */
+
+.field {
+    margin-bottom: var(--space);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.optional {
+    font-weight: 400;
+    color: var(--color-muted);
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font: inherit;
+    color: inherit;
+    background: #ffffff;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border-color: var(--color-danger);
+    background: var(--color-danger-bg);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+.btn:focus-visible,
+.filter:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 2px;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* --- Buttons (links and buttons share one style) --- */
+
+.btn {
+    display: inline-block;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: #ffffff;
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #eef1f4;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn-success {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background: #166534;
+}
+
+.btn-danger {
+    background: #ffffff;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.btn-danger:hover {
+    background: var(--color-danger-bg);
+}
+
+/* --- Filters --- */
+
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: var(--space);
+}
+
+.filter {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: #ffffff;
+    color: var(--color-text);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+}
+
+.filter-active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+}
+
+/* --- Tasks --- */
+
+.task-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.task {
+    margin-bottom: 0.75rem;
+    padding: var(--space);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 6px solid var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.task-title {
+    margin: 0;
+    font-size: 1.1rem;
+    overflow-wrap: anywhere;
+}
+
+.task-description {
+    margin: 0.25rem 0 0;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.task-status {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.task-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--space);
+}
+
+.task-actions form {
+    margin: 0;
+}
+
+/* Completed tasks: green edge, muted text, struck-through title. */
+.task-completed {
+    border-left-color: var(--color-success);
+    background: #f1f5f2;
+}
+
+.task-completed .task-title {
+    text-decoration: line-through;
+    color: var(--color-muted);
+}
+
+.task-completed .task-description {
+    color: var(--color-muted);
+}
+
+.task-completed .task-status {
+    color: var(--color-success);
+}
+
+.empty {
+    padding: 1.5rem var(--space);
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+    text-align: center;
+    color: var(--color-muted);
+}
+
+/* --- Wider screens --- */
+
+@media (min-width: 40rem) {
+    .site-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .filter {
+        flex: none;
+        min-width: 7rem;
+    }
+
+    .task {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space);
+    }
+
+    .task-actions {
+        margin-top: 0;
+        flex-shrink: 0;
+    }
+}

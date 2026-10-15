@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Not Found - Simple To-Do List{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Page not found</h2>
+    <p>Sorry, we could not find what you were looking for. The task may have been deleted.</p>
+    <p><a class="btn btn-primary" href="{{ url_for('index') }}">Back to my tasks</a></p>
+</section>
+{% endblock %}
