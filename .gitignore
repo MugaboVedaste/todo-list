@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 tasks.db
 *.db-journal
+tasks.db
